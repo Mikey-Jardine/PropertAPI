@@ -27,6 +27,12 @@ namespace PropertyAPI.Repositories
             return null;
         }
 
+        public List<Property> GetPropertyInRange(int low, int high)
+        {
+            var properties = _context.Property.Where(x => x.Price >= low && x.Price <= high).ToList();
+            return properties;
+        }
+
         public IEnumerable<Property> GetAllProperty()
         {
             return _context.Property;

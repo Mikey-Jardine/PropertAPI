@@ -45,6 +45,19 @@ namespace PropertyAPI.Controllers
             return Ok(property);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPropertyInRange([FromRoute] int low, int high)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var properties = _propertyRepository.GetPropertyInRange(low, high);
+
+            return Ok(properties);
+        }
+
         // PUT: api/Properties/5
         [HttpPut()]
         public async Task<IActionResult> CreateProperty([FromBody] Property property)

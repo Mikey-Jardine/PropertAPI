@@ -9,6 +9,7 @@ namespace PropertyAPI.Interfaces
     public interface IPropertyRepository
     {
         Property GetProperty(int id);
+        List<Property> GetPropertyInRange(int low, int high);
         IEnumerable<Property> GetAllProperty();
         void CreateProperty(Property property);
         void UpdateProperty(Property property);
