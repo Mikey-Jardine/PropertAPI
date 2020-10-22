@@ -1,0 +1,14 @@
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\bin\Debug\netcoreapp2.1\PropertyAPI.deps.json
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\bin\Debug\netcoreapp2.1\PropertyAPI.runtimeconfig.json
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\bin\Debug\netcoreapp2.1\PropertyAPI.runtimeconfig.dev.json
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\bin\Debug\netcoreapp2.1\PropertyAPI.dll
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\bin\Debug\netcoreapp2.1\PropertyAPI.pdb
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\obj\Debug\netcoreapp2.1\PropertyAPI.csprojAssemblyReference.cache
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\obj\Debug\netcoreapp2.1\PropertyAPI.csproj.CoreCompileInputs.cache
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\obj\Debug\netcoreapp2.1\PropertyAPI.RazorAssemblyInfo.cache
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\obj\Debug\netcoreapp2.1\PropertyAPI.RazorAssemblyInfo.cs
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\obj\Debug\netcoreapp2.1\PropertyAPI.AssemblyInfoInputs.cache
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\obj\Debug\netcoreapp2.1\PropertyAPI.AssemblyInfo.cs
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\obj\Debug\netcoreapp2.1\PropertyAPI.RazorTargetAssemblyInfo.cache
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\obj\Debug\netcoreapp2.1\PropertyAPI.dll
+C:\Users\jardim01\source\PropertyAPI\PropertyAPI\obj\Debug\netcoreapp2.1\PropertyAPI.pdb
