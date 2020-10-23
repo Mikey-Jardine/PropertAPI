@@ -1,1 +1,2 @@
-A dotnet core API that perfrom CRUD operations using Entity Framework.
+Dotnet core API using Entity Framework demonstrating CRUD operations
+Given more time I plan to implement Dependency Injection and a Service Layer
