@@ -45,7 +45,7 @@ namespace PropertyAPI.Controllers
             return Ok(property);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{low}/{high}")]
         public async Task<IActionResult> GetPropertyInRange([FromRoute] int low, int high)
         {
             if (!ModelState.IsValid)
