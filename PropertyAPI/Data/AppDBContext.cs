@@ -15,12 +15,12 @@ namespace PropertyAPI.Models
         {
         }
 
-        public DbSet<Property> Property { get; set; }
+        public DbSet<Property> Properties { get; set; }
         public DbSet<Photo> Photos { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    //modelBuilder.Seed();
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Seed();
+        }
     }
 }

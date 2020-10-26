@@ -22,7 +22,7 @@ namespace PropertyAPI.Services
         {
             if (PropertyExists(id))
             {
-                return _context.Property.Find(id);
+                return _context.Properties.Find(id);
             }
 
             return null;
@@ -58,7 +58,7 @@ namespace PropertyAPI.Services
         {
             if (!PropertyExists(property.Id))
             {
-                _context.Property.Add(@property);
+                _context.Properties.Add(@property);
                 await _context.SaveChangesAsync();
             }
 
@@ -69,7 +69,7 @@ namespace PropertyAPI.Services
         {
             if (PropertyExists(property.Id))
             {
-                _context.Property.Remove(property);
+                _context.Properties.Remove(property);
                 _context.SaveChangesAsync();
             }
 
@@ -78,7 +78,7 @@ namespace PropertyAPI.Services
 
         private bool PropertyExists(int id)
         {
-            return _context.Property.Any(e => e.Id == id);
+            return _context.Properties.Any(e => e.Id == id);
         }
     }
 }

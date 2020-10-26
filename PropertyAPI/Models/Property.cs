@@ -13,7 +13,12 @@ namespace PropertyAPI.Models
     {
         public Property()
         {
-            //Photos = new List<Photo>();
+            Photos = new List<string>();
+        }
+
+        public void Initialise()
+        {
+            
         }
 
 
@@ -25,8 +30,10 @@ namespace PropertyAPI.Models
         public double SizeStringMeters { get; set; }
         public string DisplayAddress { get; set; }
         public string PropertyType { get; set; }
+        //public string BathString { get; set; }
         public string BerRating { get; set; }
         public string MainPhoto { get; set; }
-        public ICollection<Photo> Photos { get; set; }
+        [NotMapped]
+        public ICollection<string> Photos { get; set; }
     }
 }

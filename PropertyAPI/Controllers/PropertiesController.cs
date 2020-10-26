@@ -26,7 +26,7 @@ namespace PropertyAPI.Controllers
 
         // GET: api/Properties
         [HttpGet]
-        public IEnumerable<Property> GetProperty()
+        public IEnumerable<Property> GetAllProperty()
         {
             return _propertyRepository.GetAllProperty();
         }
@@ -60,27 +60,27 @@ namespace PropertyAPI.Controllers
 
         // PUT: api/Properties/5
         [HttpPut()]
-        public async Task<IActionResult> CreateProperty([FromBody] Property property)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _propertyRepository.CreateProperty(property);
-
-            return NoContent();
-        }
-
-        // POST: api/Properties
-        [HttpPost]
         public async Task<IActionResult> UpdateProperty([FromBody] Property property)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
             _propertyRepository.UpdateProperty(property);
+
+            return NoContent();
+        }
+
+        // POST: api/Properties
+        [HttpPost]
+        public async Task<IActionResult> CreateProperty([FromBody] Property property)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            _propertyRepository.CreateProperty(property);
 
             return CreatedAtAction("GetProperty", new { id = property.Id }, property);
         }

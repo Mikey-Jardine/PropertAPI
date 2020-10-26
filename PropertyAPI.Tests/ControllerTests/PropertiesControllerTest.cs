@@ -56,7 +56,12 @@ namespace PropertyAPI.Tests.ControllerTests
             BerRating = "D2",
             MainPhoto =
                 "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-            Photos = _photoList1
+            Photos = new List<string>()
+            {
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg"
+            }
         };
 
         private static Property _property2 = new Property()
@@ -71,7 +76,12 @@ namespace PropertyAPI.Tests.ControllerTests
             BerRating = "D2",
             MainPhoto =
                 "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-            Photos = _photoList2
+            Photos = new List<string>()
+            {
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg"
+            }
         };
 
         private static Property _property3 = new Property()
@@ -86,7 +96,12 @@ namespace PropertyAPI.Tests.ControllerTests
             BerRating = "D2",
             MainPhoto =
                 "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-            Photos = _photoList3
+            Photos = new List<string>()
+            {
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg"
+            }
         };
 
         private List<Property> properties = new List<Property>() { _property1, _property2, _property3 };
@@ -98,7 +113,7 @@ namespace PropertyAPI.Tests.ControllerTests
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
 
-                context.Property.AddRange(properties);
+                context.Properties.AddRange(properties);
                 context.SaveChanges();
             }
         }
@@ -170,7 +185,12 @@ namespace PropertyAPI.Tests.ControllerTests
                 BerRating = "D2",
                 MainPhoto =
                 "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-                Photos = _photoList1
+                Photos = new List<string>()
+            {
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg"
+            }
             };
 
             var result = _controller.CreateProperty(property);
@@ -194,7 +214,12 @@ namespace PropertyAPI.Tests.ControllerTests
                 BerRating = "D2",
                 MainPhoto =
                     "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-                Photos = _photoList1
+                Photos = new List<string>()
+                {
+                    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg"
+                }
             };
 
             var result = _controller.UpdateProperty(property);

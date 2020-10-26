@@ -21,7 +21,8 @@ namespace PropertyAPI.Repositories
         {
             if (PropertyExists(id))
             {
-                return _context.Property.Find(id);
+                var property = _context.Properties.Find(id);
+                return JoinPropertyAndPhotos(property); 
             }
 
             return null;
@@ -29,26 +30,35 @@ namespace PropertyAPI.Repositories
 
         public List<Property> GetPropertyInRange(int low, int high)
         {
-            var properties = _context.Property.Where(x => x.Price >= low && x.Price <= high).ToList();
+            var properties = _context.Properties.Where(x => x.Price >= low && x.Price <= high).ToList();
+            foreach (var property in properties)
+            {
+                JoinPropertyAndPhotos(property);
+            }
             return properties;
         }
 
         public IEnumerable<Property> GetAllProperty()
         {
-            return _context.Property;
+            var properties = _context.Properties;
+            foreach (var property in properties)
+            {
+                JoinPropertyAndPhotos(property);
+            }
+
+            return properties;
         }
 
         public void CreateProperty(Property property)
         {
             _context.Entry(property).State = EntityState.Modified;
-            _context.Property.Add(property);
+            _context.Properties.Add(property);
             if (property.Photos != null && property.Photos.Count > 0)
             {
                 foreach (var photo in property.Photos)
                 {
-                    _context.Photos.Add(photo);
+                    _context.Photos.Add(new Photo { PropertyId = property.Id, Url = photo });
                 }
-
             }
             _context.SaveChangesAsync();
 
@@ -58,15 +68,17 @@ namespace PropertyAPI.Repositories
         {
             if (PropertyExists(property.Id))
             {
-                _context.Property.Add(property);
+                _context.Properties.Add(property);
 
                 if (property.Photos != null && property.Photos.Count > 0)
                 {
                     foreach (var photo in property.Photos)
                     {
-                        _context.Photos.Add(photo);
+                        if (!PhotoExists(photo))
+                        {
+                            _context.Photos.Add(new Photo { PropertyId = property.Id, Url = photo });
+                        }
                     }
-
                 }
                 try
                 {
@@ -77,8 +89,7 @@ namespace PropertyAPI.Repositories
                     if (!PropertyExists(property.Id))
                     {
                         
-                    }
-                    
+                    }                   
                 }
             }
         }
@@ -87,8 +98,12 @@ namespace PropertyAPI.Repositories
         {
             if (PropertyExists(id))
             {
-                var propertyToDelete = _context.Property.Find(id);
-                _context.Property.Remove(propertyToDelete);
+                var propertyToDelete = _context.Properties.Find(id);
+                var photosToDelete = _context.Photos.Where(x => x.PropertyId == id);
+
+                _context.Properties.Remove(propertyToDelete);
+                _context.Photos.RemoveRange(photosToDelete);
+          
                 try
                 {
                     _context.SaveChangesAsync();
@@ -101,7 +116,6 @@ namespace PropertyAPI.Repositories
                     }
 
                 }
-
                 return propertyToDelete;
             }
 
@@ -109,9 +123,26 @@ namespace PropertyAPI.Repositories
             return null;
         }
 
+        private Property JoinPropertyAndPhotos(Property property)
+        {
+            foreach (var photo in _context.Photos.Where(x => x.PropertyId == property.Id))
+            {
+                if (property.Photos != null && !property.Photos.Contains(photo.Url))
+                {
+                    property.Photos.Add(photo.Url);
+                }               
+            }
+            return property;
+        }
+
         private bool PropertyExists(int id)
         {
-            return _context.Property.Any(e => e.Id == id);
+            return _context.Properties.Any(e => e.Id == id);
+        }
+
+        private bool PhotoExists(string url)
+        {
+            return _context.Photos.Any(e => e.Url == url);
         }
     }
 }
