@@ -77,9 +77,10 @@ namespace PropertyAPI.Tests.ControllerTests
         public void GetPropertyTest()
         {
             var result =  _controller.GetAllProperty();
+            var count = context.Properties.Count();
 
             Assert.NotNull(result);
-            Assert.AreEqual(10, result.Count());
+            Assert.AreEqual(count, result.Count());
         }
 
         [Test]
@@ -152,12 +153,11 @@ namespace PropertyAPI.Tests.ControllerTests
         [Test]
         public void DeletePropertyTest()
         {
-            var result = _controller.GetProperty(1);
+            var result = _controller.DeleteProperty(4229499);
 
             Assert.NotNull(result);
             Assert.AreEqual(TaskStatus.RanToCompletion, result.Status);
+
         }
-
-
     }
 }
