@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.ProjectModel;
 using PropertyAPI.Interfaces;
 using PropertyAPI.Models;
+using Unity;
 
 namespace PropertyAPI.Controllers
 {
@@ -16,19 +17,20 @@ namespace PropertyAPI.Controllers
     public class PropertiesController : ControllerBase
     {
         private readonly AppDBContext _context;
-        private readonly IPropertyRepository _propertyRepository;
 
-        public PropertiesController(AppDBContext context, IPropertyRepository propertyRepository)
+        public PropertiesController
+            (AppDBContext context, [FromServices] IPropertyService PropertyService, [FromServices] IPropertyRepository PropertyRepository)
         {
             _context = context;
-            _propertyRepository = propertyRepository;
+            _propertyService = PropertyService;
+            _propertyRepository = PropertyRepository;
         }
 
         // GET: api/Properties
         [HttpGet]
         public IEnumerable<Property> GetAllProperty()
         {
-            return _propertyRepository.GetAllProperty();
+            return _propertyService.GetAllProperty();
         }
 
         // GET: api/Properties/5
@@ -40,7 +42,7 @@ namespace PropertyAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var property =_propertyRepository.GetProperty(id);
+            var property = _propertyService.GetProperty(id);
 
             return Ok(property);
         }
@@ -53,7 +55,7 @@ namespace PropertyAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var properties = _propertyRepository.GetPropertyInRange(low, high);
+            var properties = _propertyService.GetPropertyInRange(low, high);
 
             return Ok(properties);
         }
@@ -67,7 +69,7 @@ namespace PropertyAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            _propertyRepository.UpdateProperty(property);
+            _propertyService.UpdateProperty(property);
 
             return NoContent();
         }
@@ -80,7 +82,7 @@ namespace PropertyAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            _propertyRepository.CreateProperty(property);
+            _propertyService.CreateProperty(property);
 
             return CreatedAtAction("GetProperty", new { id = property.Id }, property);
         }
@@ -94,11 +96,15 @@ namespace PropertyAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var property = _propertyRepository.DeleteProperty(id);
+            var property = _propertyService.DeleteProperty(id);
 
             return Ok(property);
         }
 
+        [Dependency]
+        public IPropertyService _propertyService { get; set; }
 
+        [Dependency]
+        public IPropertyRepository _propertyRepository { get; set; }
     }
 }

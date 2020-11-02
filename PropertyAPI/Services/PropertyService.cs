@@ -5,80 +5,48 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PropertyAPI.Interfaces;
 using PropertyAPI.Models;
+using Unity;
 
 namespace PropertyAPI.Services
 {
-    public class PropertyService :  IPropertyService
+    public class PropertyService : IPropertyService
     {
-        private AppDBContext _context;
-
-
-        public PropertyService(AppDBContext context) 
+        public PropertyService(IPropertyRepository propertyRepository)
         {
-            _context = context;
+            PropertyRepository = propertyRepository;
+        }
+
+        public IEnumerable<Property> GetAllProperty()
+        {
+            return PropertyRepository.GetAllProperty();
         }
 
         public Property GetProperty(int id)
         {
-            if (PropertyExists(id))
-            {
-                return _context.Properties.Find(id);
-            }
-
-            return null;
+            return PropertyRepository.GetProperty(id);
         }
 
-        public async Task<Property> UpdateProperty(Property property)
+        public List<Property> GetPropertyInRange(int low, int high)
+        {  
+            return PropertyRepository.GetPropertyInRange(low, high);
+        }
+
+        public void CreateProperty(Property property)
         {
-            if (PropertyExists(property.Id))
-            {
-                _context.Entry(property).State = EntityState.Modified;
-
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PropertyExists(property.Id))
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
-
-            return null;
+            PropertyRepository.CreateProperty(property);
         }
 
-        public async Task<Property> CreateProperty(Property property)
+        public void UpdateProperty(Property property)
         {
-            if (!PropertyExists(property.Id))
-            {
-                _context.Properties.Add(@property);
-                await _context.SaveChangesAsync();
-            }
-
-            return null;
+            PropertyRepository.UpdateProperty(property);
         }
 
-        public Task<Property> DeleteProperty(Property property)
+        public Property DeleteProperty(int id)
         {
-            if (PropertyExists(property.Id))
-            {
-                _context.Properties.Remove(property);
-                _context.SaveChangesAsync();
-            }
-
-            return null;
+            return PropertyRepository.DeleteProperty(id);
         }
 
-        private bool PropertyExists(int id)
-        {
-            return _context.Properties.Any(e => e.Id == id);
-        }
+        [Dependency]
+        public IPropertyRepository PropertyRepository { get; set; }
     }
 }

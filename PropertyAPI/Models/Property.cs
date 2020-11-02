@@ -16,12 +16,6 @@ namespace PropertyAPI.Models
             Photos = new List<string>();
         }
 
-        public void Initialise()
-        {
-            
-        }
-
-
         [Key]
         public int Id { get; set; }
         public string GroupLogoUrl { get; set; }

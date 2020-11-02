@@ -18,6 +18,7 @@ using PropertyAPI.Interfaces;
 using PropertyAPI.Models;
 using PropertyAPI.Repositories;
 using Swashbuckle.AspNetCore;
+using PropertyAPI.Services;
 
 namespace PropertyAPI
 {
@@ -43,8 +44,10 @@ namespace PropertyAPI
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "PropertyAPI", Version = "v1"});
             });
 
-            services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddMvcCore().AddApiExplorer();
+
+            services.AddTransient<IPropertyRepository, PropertyRepository>();
+            services.AddTransient<IPropertyService, PropertyService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
