@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Internal;
 using Moq;
 using NUnit.Framework;
 using PropertyAPI.Controllers;
 using PropertyAPI.Interfaces;
 using PropertyAPI.Models;
-using PropertyAPI.Tests.Mocks;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using Microsoft.Extensions.DependencyInjection;
+using PropertyAPI.Repositories;
+using PropertyAPI.Services;
 
 namespace PropertyAPI.Tests.ControllerTests
 {
@@ -19,8 +19,11 @@ namespace PropertyAPI.Tests.ControllerTests
     {
 
         private PropertiesController _controller;
-        private AppDBContext _context;
+        private Mock<AppDBContext> _context;
+        private AppDBContext context;
+        private ServiceCollection services;
         private DbContextOptions<AppDBContext> _options;
+        public Mock<IConfiguration> Configuration { get; }
 
         private static List<Photo> _photoList1 = new List<Photo>()
         {
@@ -105,66 +108,69 @@ namespace PropertyAPI.Tests.ControllerTests
         };
 
         private List<Property> properties = new List<Property>() { _property1, _property2, _property3 };
+        private ServiceProvider serviceProvider;
 
-        public void InitializeDatabaseWithDataTest()
+        public void InitializeDbContextServices()
         {
-            using (var context = new AppDBContext(_options))
+            services = new ServiceCollection();
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            var _configuration = builder.Build();
+            _options = new DbContextOptionsBuilder<AppDBContext>()
+                .UseSqlServer(_configuration.GetConnectionString("AppDBContext"))
+                .Options;
+
+            using (context = new AppDBContext(_options))
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
 
-                context.Properties.AddRange(properties);
                 context.SaveChanges();
             }
+
+            services.AddDbContext<AppDBContext>(builder =>
+            {
+                var connStr = _configuration.GetConnectionString("AppDBContext");
+                builder.UseSqlServer(connStr, opt =>
+                {
+                    opt.EnableRetryOnFailure();
+                    opt.CommandTimeout(15);
+                });
+            });
+            services.AddTransient<IPropertyRepository, PropertyRepository>();
+            services.AddTransient<IPropertyService, PropertyService>();
         }
 
         [SetUp]
         public void Setup()
         {
-            IQueryable<Property> properties = new List<Property>
-            {
-                _property1
+            InitializeDbContextServices();
 
-            }.AsQueryable();
+            serviceProvider = services.BuildServiceProvider();
+            context = serviceProvider.GetRequiredService<AppDBContext>();
+            var propertyService = serviceProvider.GetRequiredService<IPropertyService>();
+            var propertyRepository = serviceProvider.GetRequiredService<IPropertyRepository>();
 
-            var _photoasQueryable = _photoList1.AsQueryable();
-
-            var mockSetProperty = new Mock<DbSet<Property>>();
-            mockSetProperty.As<IQueryable<Property>>().Setup(m => m.Provider).Returns(properties.Provider);
-            mockSetProperty.As<IQueryable<Property>>().Setup(m => m.Expression).Returns(properties.Expression);
-            mockSetProperty.As<IQueryable<Property>>().Setup(m => m.ElementType).Returns(properties.ElementType);
-            mockSetProperty.As<IQueryable<Property>>().Setup(m => m.GetEnumerator()).Returns(properties.GetEnumerator());
-
-            var mockSetPhoto = new Mock<DbSet<Photo>>();
-            mockSetPhoto.As<IQueryable<Photo>>().Setup(m => m.Provider).Returns(_photoasQueryable.Provider);
-            mockSetPhoto.As<IQueryable<Photo>>().Setup(m => m.Expression).Returns(_photoasQueryable.Expression);
-            mockSetPhoto.As<IQueryable<Photo>>().Setup(m => m.ElementType).Returns(_photoasQueryable.ElementType);
-            mockSetPhoto.As<IQueryable<Photo>>().Setup(m => m.GetEnumerator()).Returns(_photoasQueryable.GetEnumerator());
-
-            var mockRepository = new Mock<IPropertyRepository>();
-            mockRepository.Setup(x => x.CreateProperty(It.IsAny<Property>()));
-            mockRepository.Setup(x => x.GetProperty(It.IsAny<int>())).Returns(_property1);
-            mockRepository.Setup(x => x.DeleteProperty(It.IsAny<int>())).Returns(_property1);
-            mockRepository.Setup(x => x.UpdateProperty(It.IsAny<Property>()));
-            mockRepository.Setup(x => x.GetAllProperty()).Returns(properties);
-
-            _controller = new PropertiesController(_context, mockRepository.Object);
+            _controller = new PropertiesController(context, propertyService, propertyRepository);
         }
 
 
         [Test]
         public void GetPropertyTest()
         {
-            var result =  _controller.GetProperty();
+            var result =  _controller.GetAllProperty();
 
             Assert.NotNull(result);
-            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(10, result.Count());
         }
 
         [Test]
         public void GetPropertyWithIdTest()
         {
-            var result = _controller.GetProperty(1);
+            var result = _controller.GetProperty(4292232);
 
             Assert.NotNull(result);
             Assert.AreEqual(TaskStatus.RanToCompletion, result.Status);
@@ -204,7 +210,7 @@ namespace PropertyAPI.Tests.ControllerTests
         {
             var property = new Property()
             {
-                Id = 6,
+                Id = 4292232,
                 GroupLogoUrl = "https://photosa.propertyimages.ie/groups/9/0/4/6409/logo.jpg",
                 BedsString = "2 beds",
                 Price = 395000,
