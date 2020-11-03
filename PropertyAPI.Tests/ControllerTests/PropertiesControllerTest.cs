@@ -26,6 +26,9 @@ namespace PropertyAPI.Tests.ControllerTests
         private ServiceProvider serviceProvider;
         private IPropertyService propertyService { get; set; }
         private IPropertyRepository propertyRepository { get; set; }
+        private SearchResultsModel searchResults { get; set; }
+
+        private PropertyModel propertyModel { get; set; }
 
         private void InitializeDbContextServices()
         {
@@ -54,7 +57,7 @@ namespace PropertyAPI.Tests.ControllerTests
                 builder.UseSqlServer(connectionString, opt =>
                 {
                     opt.EnableRetryOnFailure();
-                    opt.CommandTimeout(15);
+                    opt.CommandTimeout(30);
                 });
             });
 
@@ -74,6 +77,8 @@ namespace PropertyAPI.Tests.ControllerTests
             context = serviceProvider.GetRequiredService<AppDBContext>();
             propertyService = serviceProvider.GetRequiredService<IPropertyService>();
             propertyRepository = serviceProvider.GetRequiredService<IPropertyRepository>();
+            searchResults = serviceProvider.GetRequiredService<SearchResultsModel>();
+            propertyModel = serviceProvider.GetRequiredService<PropertyModel>();
 
             _controller = serviceProvider.GetRequiredService<PropertyController>();
         }
@@ -102,7 +107,6 @@ namespace PropertyAPI.Tests.ControllerTests
         {
             var property = new Property()
             {
-                Id = 6,
                 GroupLogoUrl = "https://photosa.propertyimages.ie/groups/9/0/4/6409/logo.jpg",
                 BedsString = "2 beds",
                 Price = 395000,
@@ -130,7 +134,6 @@ namespace PropertyAPI.Tests.ControllerTests
         {
             var property = new Property()
             {
-                Id = 4292232,
                 GroupLogoUrl = "https://photosa.propertyimages.ie/groups/9/0/4/6409/logo.jpg",
                 BedsString = "2 beds",
                 Price = 395000,
