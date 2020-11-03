@@ -17,15 +17,15 @@ namespace PropertyAPI.Tests.ControllerTests
 {
     public class PropertiesControllerTest : BaseControllerTests
     {
-        private PropertiesController _controller;
+        private PropertyController _controller;
         private AppDBContext context;
         private ServiceCollection services;
         private DbContextOptions<AppDBContext> _options;
         private ServiceProvider serviceProvider;
-        public IPropertyService propertyService { get; set; }
-        public IPropertyRepository propertyRepository { get; set; }
+        private IPropertyService propertyService { get; set; }
+        private IPropertyRepository propertyRepository { get; set; }
 
-        public void InitializeDbContextServices()
+        private void InitializeDbContextServices()
         {
             services = new ServiceCollection();
 
@@ -55,8 +55,12 @@ namespace PropertyAPI.Tests.ControllerTests
                     opt.CommandTimeout(15);
                 });
             });
+
             services.AddTransient<IPropertyRepository, PropertyRepository>();
             services.AddTransient<IPropertyService, PropertyService>();
+            services.AddTransient<SearchResultsModel>();
+            services.AddTransient<PropertyModel>();
+            services.AddTransient<PropertyController>();
         }
 
         [SetUp]
@@ -69,14 +73,14 @@ namespace PropertyAPI.Tests.ControllerTests
             propertyService = serviceProvider.GetRequiredService<IPropertyService>();
             propertyRepository = serviceProvider.GetRequiredService<IPropertyRepository>();
 
-            _controller = new PropertiesController(context, propertyService, propertyRepository);
+            _controller = serviceProvider.GetRequiredService<PropertyController>();
         }
 
 
         [Test]
         public void GetPropertyTest()
         {
-            var result =  _controller.GetAllProperty();
+            var result =  _controller.GetAllProperties();
             var count = context.Properties.Count();
 
             Assert.NotNull(result);
@@ -89,7 +93,6 @@ namespace PropertyAPI.Tests.ControllerTests
             var result = _controller.GetProperty(4292232);
 
             Assert.NotNull(result);
-            Assert.AreEqual(TaskStatus.RanToCompletion, result.Status);
         }
 
         [Test]
@@ -118,7 +121,6 @@ namespace PropertyAPI.Tests.ControllerTests
             var result = _controller.CreateProperty(property);
 
             Assert.NotNull(result);
-            Assert.AreEqual(TaskStatus.RanToCompletion, result.Status);
         }
 
         [Test]
@@ -147,7 +149,6 @@ namespace PropertyAPI.Tests.ControllerTests
             var result = _controller.UpdateProperty(property);
 
             Assert.NotNull(result);
-            Assert.AreEqual(TaskStatus.RanToCompletion, result.Status);
         }
 
         [Test]
@@ -156,7 +157,14 @@ namespace PropertyAPI.Tests.ControllerTests
             var result = _controller.DeleteProperty(4229499);
 
             Assert.NotNull(result);
-            Assert.AreEqual(TaskStatus.RanToCompletion, result.Status);
+        }
+
+        [Test]
+        public void DeletePropertyNotExistTest()
+        {
+            var result = _controller.DeleteProperty(1);
+
+            Assert.NotNull(result);
 
         }
     }
