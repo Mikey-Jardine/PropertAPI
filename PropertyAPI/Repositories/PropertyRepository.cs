@@ -38,14 +38,13 @@ namespace PropertyAPI.Repositories
             return properties;
         }
 
-        public IEnumerable<Property> GetAllProperty()
+        public IEnumerable<Property> GetAllProperties()
         {
             var properties = _context.Properties;
             foreach (var property in properties)
             {
                 JoinPropertyAndPhotos(property);
             }
-
             return properties;
         }
 
@@ -60,77 +59,74 @@ namespace PropertyAPI.Repositories
                     _context.Photos.Add(new Photo { PropertyId = property.Id, Url = photo });
                 }
             }
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
 
         }
 
         public void UpdateProperty(Property property)
         {
-            if (PropertyExists(property.Id))
+            if (!PropertyExists(property.Id))
             {
-                _context.Properties.Add(property);
+                return;
+            }
+            _context.Properties.Add(property);
 
-                if (property.Photos != null && property.Photos.Count > 0)
+            if (property.Photos != null && property.Photos.Count > 0)
+            {
+                foreach (var photo in property.Photos)
                 {
-                    foreach (var photo in property.Photos)
+                    if (!PhotoExists(photo))
                     {
-                        if (!PhotoExists(photo))
-                        {
-                            _context.Photos.Add(new Photo { PropertyId = property.Id, Url = photo });
-                        }
+                        _context.Photos.Add(new Photo { PropertyId = property.Id, Url = photo });
                     }
                 }
-                try
-                {
-                    _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PropertyExists(property.Id))
-                    {
-                        
-                    }                   
-                }
+            }
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+              
             }
         }
 
         public Property DeleteProperty(int id)
         {
-            if (PropertyExists(id))
+            if (!PropertyExists(id))
             {
-                var propertyToDelete = _context.Properties.Find(id);
-                var photosToDelete = _context.Photos.Where(x => x.PropertyId == id);
-
-                _context.Properties.Remove(propertyToDelete);
-                _context.Photos.RemoveRange(photosToDelete);
-          
-                try
-                {
-                    _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PropertyExists(id))
-                    {
-                        return null;
-                    }
-
-                }
-                return propertyToDelete;
+                return null;
             }
+            var propertyToDelete = _context.Properties.Find(id);
+            var photosToDelete = _context.Photos.Where(x => x.PropertyId == id);
 
+            _context.Properties.Remove(propertyToDelete);
+            _context.Photos.RemoveRange(photosToDelete);
 
-            return null;
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PropertyExists(id))
+                {
+                    return null;
+                }
+
+            }
+            return propertyToDelete;
         }
 
         private Property JoinPropertyAndPhotos(Property property)
         {
             foreach (var photo in _context.Photos.Where(x => x.PropertyId == property.Id))
             {
-                if (property.Photos != null && !property.Photos.Contains(photo.Url))
+                if (property.Photos == null || property.Photos.Contains(photo.Url))
                 {
-                    property.Photos.Add(photo.Url);
-                }               
+                    continue;
+                }
+                property.Photos.Add(photo.Url);
             }
             return property;
         }

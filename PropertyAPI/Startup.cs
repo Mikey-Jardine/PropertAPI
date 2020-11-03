@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PropertyAPI.Interfaces;
 using PropertyAPI.Models;
 using PropertyAPI.Repositories;
-using Swashbuckle.AspNetCore;
 using PropertyAPI.Services;
+using PropertyAPI.Controllers;
 
 namespace PropertyAPI
 {
@@ -46,8 +37,12 @@ namespace PropertyAPI
 
             services.AddMvcCore().AddApiExplorer();
 
+            services.AddTransient<PropertyController>();
+            services.AddTransient<SearchResultsModel>();
+            services.AddTransient<PropertyModel>();
             services.AddTransient<IPropertyRepository, PropertyRepository>();
             services.AddTransient<IPropertyService, PropertyService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

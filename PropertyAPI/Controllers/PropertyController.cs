@@ -14,97 +14,93 @@ namespace PropertyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PropertiesController : ControllerBase
+    public class PropertyController : ControllerBase
     {
-        private readonly AppDBContext _context;
+        public SearchResultsModel SearchResults { get; set; }
 
-        public PropertiesController
-            (AppDBContext context, [FromServices] IPropertyService PropertyService, [FromServices] IPropertyRepository PropertyRepository)
+        public PropertyModel PropertyModel { get; set; }
+
+        public PropertyController(SearchResultsModel searchResults, PropertyModel propertyModel)
         {
-            _context = context;
-            _propertyService = PropertyService;
-            _propertyRepository = PropertyRepository;
+            SearchResults = searchResults;
+            PropertyModel = propertyModel;
         }
 
         // GET: api/Properties
         [HttpGet]
-        public IEnumerable<Property> GetAllProperty()
+        public IEnumerable<Property> GetAllProperties()
         {
-            return _propertyService.GetAllProperty();
+            return SearchResults.GetAllProperties();
         }
 
         // GET: api/Properties/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProperty([FromRoute] int id)
+        public IActionResult GetProperty([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var property = _propertyService.GetProperty(id);
+            var property = SearchResults.GetProperty(id);
 
             return Ok(property);
         }
 
         [HttpGet("{low}/{high}")]
-        public async Task<IActionResult> GetPropertyInRange([FromRoute] int low, int high)
+        public IActionResult GetPropertyInRange([FromRoute] int low, int high)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var properties = _propertyService.GetPropertyInRange(low, high);
+            var properties = SearchResults.GetPropertyInRange(low, high);
 
             return Ok(properties);
         }
 
         // PUT: api/Properties/5
         [HttpPut()]
-        public async Task<IActionResult> UpdateProperty([FromBody] Property property)
+        public IActionResult UpdateProperty([FromBody] Property property)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _propertyService.UpdateProperty(property);
+            PropertyModel.UpdateProperty(property);
 
             return NoContent();
         }
 
         // POST: api/Properties
         [HttpPost]
-        public async Task<IActionResult> CreateProperty([FromBody] Property property)
+        public IActionResult CreateProperty([FromBody] Property property)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            _propertyService.CreateProperty(property);
+            PropertyModel.CreateProperty(property);
 
             return CreatedAtAction("GetProperty", new { id = property.Id }, property);
         }
 
         // DELETE: api/Properties/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProperty([FromRoute] int id)
+        public IActionResult DeleteProperty([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var property = _propertyService.DeleteProperty(id);
+            var property = PropertyModel.DeleteProperty(id);
 
             return Ok(property);
         }
 
-        [Dependency]
-        public IPropertyService _propertyService { get; set; }
-
-        [Dependency]
-        public IPropertyRepository _propertyRepository { get; set; }
+       
     }
 }

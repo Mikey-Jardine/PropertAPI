@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace PropertyAPI.Interfaces
 {
-    public interface IPropertyService
+    public interface ISearchResultsModel
     {
         IEnumerable<Property> GetAllProperties();
         Property GetProperty(int id);
-        List<Property> GetPropertyInRange(int low, int high);
-        void CreateProperty(Property property);
-        void UpdateProperty(Property property);
-        Property DeleteProperty(int id);
-
+        IEnumerable<Property> GetPropertyInRange(int low, int high);
 
     }
 }

@@ -16,9 +16,9 @@ namespace PropertyAPI.Services
             PropertyRepository = propertyRepository;
         }
 
-        public IEnumerable<Property> GetAllProperty()
+        public IEnumerable<Property> GetAllProperties()
         {
-            return PropertyRepository.GetAllProperty();
+            return PropertyRepository.GetAllProperties();
         }
 
         public Property GetProperty(int id)
@@ -46,7 +46,6 @@ namespace PropertyAPI.Services
             return PropertyRepository.DeleteProperty(id);
         }
 
-        [Dependency]
         public IPropertyRepository PropertyRepository { get; set; }
     }
 }
