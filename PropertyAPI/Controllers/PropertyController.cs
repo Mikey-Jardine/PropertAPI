@@ -26,15 +26,13 @@ namespace PropertyAPI.Controllers
             PropertyModel = propertyModel;
         }
 
-        // GET: api/Properties
-        [HttpGet]
+        [HttpGet("/GetAllProperties")]
         public IEnumerable<Property> GetAllProperties()
         {
             return SearchResults.GetAllProperties();
         }
 
-        // GET: api/Properties/5
-        [HttpGet("{id}")]
+        [HttpGet("/GetProperty/{id}")]
         public IActionResult GetProperty([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -47,7 +45,7 @@ namespace PropertyAPI.Controllers
             return Ok(property);
         }
 
-        [HttpGet("{low}/{high}")]
+        [HttpGet("/GetPropertyPriceRange{low}/{high}")]
         public IActionResult GetPropertyInRange([FromRoute] int low, int high)
         {
             if (!ModelState.IsValid)
@@ -60,8 +58,7 @@ namespace PropertyAPI.Controllers
             return Ok(properties);
         }
 
-        // PUT: api/Properties/5
-        [HttpPut()]
+        [HttpPut("/UpdateProperty")]
         public IActionResult UpdateProperty([FromBody] Property property)
         {
             if (!ModelState.IsValid)
@@ -74,8 +71,7 @@ namespace PropertyAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Properties
-        [HttpPost]
+        [HttpPost("/CreateProperty")]
         public IActionResult CreateProperty([FromBody] Property property)
         {
             if (!ModelState.IsValid)
@@ -87,8 +83,7 @@ namespace PropertyAPI.Controllers
             return CreatedAtAction("GetProperty", new { id = property.Id }, property);
         }
 
-        // DELETE: api/Properties/5
-        [HttpDelete("{id}")]
+        [HttpDelete("/DeleteProperty/{id}")]
         public IActionResult DeleteProperty([FromRoute] int id)
         {
             if (!ModelState.IsValid)
