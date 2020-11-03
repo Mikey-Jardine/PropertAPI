@@ -1,4 +1,5 @@
-﻿using PropertyAPI.Interfaces;
+﻿using PropertyAPI.Entities;
+using PropertyAPI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

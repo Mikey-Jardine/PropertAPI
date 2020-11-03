@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace PropertyAPI.Models
+namespace PropertyAPI.Entities
 {
     [Table("Photo")]
     public class Photo

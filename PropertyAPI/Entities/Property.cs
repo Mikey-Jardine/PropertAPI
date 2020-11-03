@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PropertyAPI.Entities;
 
-namespace PropertyAPI.Models
+namespace PropertyAPI.Entities
 {
     [Table("Property")]
     public class Property 

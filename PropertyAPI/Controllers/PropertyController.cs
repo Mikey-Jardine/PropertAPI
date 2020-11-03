@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.ProjectModel;
-using PropertyAPI.Interfaces;
+using PropertyAPI.Entities;
 using PropertyAPI.Models;
-using Unity;
 
 namespace PropertyAPI.Controllers
 {
@@ -94,8 +87,6 @@ namespace PropertyAPI.Controllers
             var property = PropertyModel.DeleteProperty(id);
 
             return Ok(property);
-        }
-
-       
+        }   
     }
 }

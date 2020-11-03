@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PropertyAPI.Entities
 {
-    public class BaseEntity
+    public class Entities
     {
     }
 }

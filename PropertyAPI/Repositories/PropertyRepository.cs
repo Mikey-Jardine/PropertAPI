@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PropertyAPI.Interfaces;
 using PropertyAPI.Models;
+using PropertyAPI.Entities;
+
 
 namespace PropertyAPI.Repositories
 {

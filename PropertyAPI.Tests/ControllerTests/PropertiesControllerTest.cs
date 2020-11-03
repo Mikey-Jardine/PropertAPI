@@ -12,6 +12,8 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using PropertyAPI.Repositories;
 using PropertyAPI.Services;
+using PropertyAPI.Entities;
+
 
 namespace PropertyAPI.Tests.ControllerTests
 {

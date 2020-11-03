@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using PropertyAPI.Interfaces;
 using PropertyAPI.Models;
 using Unity;
+using PropertyAPI.Entities;
+
 
 namespace PropertyAPI.Services
 {

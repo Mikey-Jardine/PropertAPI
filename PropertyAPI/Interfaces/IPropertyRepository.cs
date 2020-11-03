@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PropertyAPI.Models;
+using PropertyAPI.Entities;
+
 
 namespace PropertyAPI.Interfaces
 {
