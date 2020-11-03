@@ -38,7 +38,7 @@ namespace PropertyAPI.Controllers
             return Ok(property);
         }
 
-        [HttpGet("/GetPropertyPriceRange{low}/{high}")]
+        [HttpGet("/GetPropertyPriceRange/{low}/{high}")]
         public IActionResult GetPropertyInRange([FromRoute] int low, int high)
         {
             if (!ModelState.IsValid)
