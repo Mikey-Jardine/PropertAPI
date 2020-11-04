@@ -4,16 +4,24 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using PropertyAPI.Entities;
+using Newtonsoft.Json;
 
 namespace PropertyAPI.Entities
 {
     [Table("Property")]
-    public class Property 
+    public class Property
     {
         public Property()
         {
             Photos = new List<string>();
+            PhotosCollection = new List<Photo>();
+        }
+
+        [JsonConstructor]
+        public Property(IList<string> photos)
+        {
+            Photos = photos;
+            PhotosCollection = new List<Photo>();
         }
 
         [Key]
@@ -24,10 +32,12 @@ namespace PropertyAPI.Entities
         public double SizeStringMeters { get; set; }
         public string DisplayAddress { get; set; }
         public string PropertyType { get; set; }
-        //public string BathString { get; set; }
         public string BerRating { get; set; }
         public string MainPhoto { get; set; }
         [NotMapped]
-        public ICollection<string> Photos { get; set; }
+        public IList<string> Photos { get; set; }
+        [JsonIgnore]
+        [NotMapped]
+        public ICollection<Photo> PhotosCollection { get; set; }
     }
 }

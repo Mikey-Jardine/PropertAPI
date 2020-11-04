@@ -26,7 +26,7 @@ namespace PropertyAPI.Tests.ControllerTests
         private ServiceProvider serviceProvider;
         private IPropertyService propertyService { get; set; }
         private IPropertyRepository propertyRepository { get; set; }
-        private SearchResultsModel searchResults { get; set; }
+        private SearchResultsModel searchResultsModel { get; set; }
 
         private PropertyModel propertyModel { get; set; }
 
@@ -77,7 +77,7 @@ namespace PropertyAPI.Tests.ControllerTests
             context = serviceProvider.GetRequiredService<AppDBContext>();
             propertyService = serviceProvider.GetRequiredService<IPropertyService>();
             propertyRepository = serviceProvider.GetRequiredService<IPropertyRepository>();
-            searchResults = serviceProvider.GetRequiredService<SearchResultsModel>();
+            searchResultsModel = serviceProvider.GetRequiredService<SearchResultsModel>();
             propertyModel = serviceProvider.GetRequiredService<PropertyModel>();
 
             _controller = serviceProvider.GetRequiredService<PropertyController>();
@@ -88,7 +88,7 @@ namespace PropertyAPI.Tests.ControllerTests
         public void GetPropertyTest()
         {
             var result =  _controller.GetAllProperties();
-            var count = context.Properties.Count();
+            var count = searchResultsModel.SearchResults.Count();
 
             Assert.NotNull(result);
             Assert.AreEqual(count, result.Count());
@@ -116,12 +116,12 @@ namespace PropertyAPI.Tests.ControllerTests
                 BerRating = "D2",
                 MainPhoto =
                 "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-                Photos = new List<string>()
-            {
-                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-                "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg"
-            }
+            //    Photos = new List<string>()
+            //{
+            //    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+            //    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+            //    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg"
+            //}
             };
 
             var result = _controller.CreateProperty(property);
@@ -143,12 +143,12 @@ namespace PropertyAPI.Tests.ControllerTests
                 BerRating = "D2",
                 MainPhoto =
                     "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-                Photos = new List<string>()
-                {
-                    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-                    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
-                    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg"
-                }
+                //Photos = new List<string>()
+                //{
+                //    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                //    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg",
+                //    "https://photosa.propertyimages.ie/media/2/3/2/4292232/38e98b8e-645f-4adf-8e57-f927e5769840_l.jpg"
+                //}
             };
 
             var result = _controller.UpdateProperty(property);

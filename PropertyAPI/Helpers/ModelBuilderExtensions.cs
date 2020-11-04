@@ -14,22 +14,49 @@ namespace PropertyAPI.Helpers
             {
                 return;
             }
+            modelBuilder.Entity<Photo>(p =>
+            {
+                p.HasOne(p => p.Property)
+                 .WithMany(pr => pr.PhotosCollection)
+                 .HasForeignKey(p => p.PropertyId)
+                 .OnDelete(DeleteBehavior.SetNull);
+            });
+
             var data = File.ReadAllText(@"housedata.json");
             var properties = JsonConvert.DeserializeObject<List<Property>>(data);
             var photoId = 1;
 
-            modelBuilder.Entity<Property>().HasData(properties);
-
             foreach (var property in properties)
             {
+                property.InitialiseJson();
                 var photoList = new List<Photo>();
-                foreach (var photo in property.Photos)
+                foreach (var photo in property.PhotosCollection)
                 {
-                    photoList.Add(new Photo() { Id = photoId, PropertyId = property.Id, Url = photo });
+                    photo.PhotoId = photoId;
+                    photo.PropertyId = property.Id;
                     photoId++;
+                    photoList.Add(photo);
+                    modelBuilder.Entity<Photo>().HasData(new 
+                    { 
+                        PhotoId = photo.PhotoId, 
+                        PropertyId = photo.PropertyId,
+                        Url = photo.Url 
+                    });
                 }
-                modelBuilder.Entity<Photo>().HasData(photoList);
+                modelBuilder.Entity<Property>().HasData(new
+                {
+                    Id = property.Id,
+                    GroupLogoUrl = property.GroupLogoUrl,
+                    BedsString = property.BedsString,
+                    Price = property.Price,
+                    SizeStringMeters = property.SizeStringMeters,
+                    DisplayAddress= property.DisplayAddress,
+                    PropertyType = property.PropertyType,
+                    BerRating = property.BerRating,
+                    MainPhoto = property.MainPhoto
+                });
             }
+            
         }
     }
 }
