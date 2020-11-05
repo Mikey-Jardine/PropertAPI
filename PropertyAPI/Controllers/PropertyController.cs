@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PropertyAPI.Entities;
 using PropertyAPI.Models;
+using PropertyAPI.Responses;
 
 namespace PropertyAPI.Controllers
 {
@@ -20,7 +21,7 @@ namespace PropertyAPI.Controllers
         }
 
         [HttpGet("/GetAllProperties")]
-        public IEnumerable<Property> GetAllProperties()
+        public IEnumerable<PropertyResponse> GetAllProperties()
         {
             return SearchResults.GetAllProperties();
         }

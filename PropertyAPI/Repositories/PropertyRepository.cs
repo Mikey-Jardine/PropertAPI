@@ -23,7 +23,9 @@ namespace PropertyAPI.Repositories
         {
             if (PropertyExists(id))
             {
-                var property = _context.Properties.Find(id);
+                var property = _context.Properties
+                                        .Include(p => p.PhotosCollection)
+                                        .FirstOrDefault(p => p.Id == id);
                 return property;
             }
 
@@ -32,14 +34,16 @@ namespace PropertyAPI.Repositories
 
         public List<Property> GetPropertyInRange(int low, int high)
         {
-            var properties = _context.Properties.Where(x => x.Price >= low && x.Price <= high).ToList();
+            var properties = _context.Properties
+                                .Include(p => p.PhotosCollection)
+                                .Where(x => x.Price >= low && x.Price <= high).ToList();
 
             return properties;
         }
 
         public IEnumerable<Property> GetAllProperties()
         {
-            var properties = _context.Properties;
+            var properties = _context.Properties.Include(p => p.PhotosCollection);
 
             return properties;
         }

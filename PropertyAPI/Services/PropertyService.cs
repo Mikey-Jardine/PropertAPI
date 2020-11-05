@@ -1,36 +1,48 @@
-﻿using System;
+﻿using AutoMapper;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using PropertyAPI.Interfaces;
-using PropertyAPI.Models;
-using Unity;
 using PropertyAPI.Entities;
-
+using PropertyAPI.Responses;
 
 namespace PropertyAPI.Services
 {
     public class PropertyService : IPropertyService
     {
-        public PropertyService(IPropertyRepository propertyRepository)
+        private readonly IMapper _mapper;
+        public PropertyResponse PropertyResponse { get; set; }
+        public List<PropertyResponse> PropertyResponses { get; set; }
+
+        public PropertyService(IPropertyRepository propertyRepository, IMapper mapper)
         {
             PropertyRepository = propertyRepository;
+            _mapper = mapper;
+            PropertyResponses = new List<PropertyResponse>();
         }
 
-        public IEnumerable<Property> GetAllProperties()
+        public IEnumerable<PropertyResponse> GetAllProperties()
         {
-            return PropertyRepository.GetAllProperties();
+            var propertyEntities = PropertyRepository.GetAllProperties();
+            foreach (var property in propertyEntities)
+            {
+                PropertyResponses.Add(_mapper.Map<PropertyResponse>(property));
+            }
+            return PropertyResponses;
         }
 
-        public Property GetProperty(int id)
+        public PropertyResponse GetProperty(int id)
         {
-            return PropertyRepository.GetProperty(id);
+            var property = PropertyRepository.GetProperty(id);
+            return _mapper.Map<PropertyResponse>(property);
         }
 
-        public List<Property> GetPropertyInRange(int low, int high)
-        {  
-            return PropertyRepository.GetPropertyInRange(low, high);
+        public List<PropertyResponse> GetPropertyInRange(int low, int high)
+        {
+            var propertyEntities = PropertyRepository.GetPropertyInRange(low, high);
+            foreach (var property in propertyEntities)
+            {
+                PropertyResponses.Add(_mapper.Map<PropertyResponse>(property));
+            }
+            return PropertyResponses;
         }
 
         public void CreateProperty(Property property)

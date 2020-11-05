@@ -1,13 +1,14 @@
 ﻿using PropertyAPI.Entities;
+using PropertyAPI.Responses;
 using System.Collections.Generic;
 
 namespace PropertyAPI.Interfaces
 {
     public interface ISearchResultsModel
     {
-        IEnumerable<Property> GetAllProperties();
-        Property GetProperty(int id);
-        IEnumerable<Property> GetPropertyInRange(int low, int high);
+        IEnumerable<PropertyResponse> GetAllProperties();
+        PropertyResponse GetProperty(int id);
+        IEnumerable<PropertyResponse> GetPropertyInRange(int low, int high);
 
     }
 }

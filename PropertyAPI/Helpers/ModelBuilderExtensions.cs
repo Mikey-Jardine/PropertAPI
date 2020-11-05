@@ -18,8 +18,7 @@ namespace PropertyAPI.Helpers
             {
                 p.HasOne(p => p.Property)
                  .WithMany(pr => pr.PhotosCollection)
-                 .HasForeignKey(p => p.PropertyId)
-                 .OnDelete(DeleteBehavior.SetNull);
+                 .HasForeignKey(p => p.PropertyId);
             });
 
             var data = File.ReadAllText(@"housedata.json");

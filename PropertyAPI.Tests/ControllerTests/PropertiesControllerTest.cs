@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PropertyAPI.Repositories;
 using PropertyAPI.Services;
 using PropertyAPI.Entities;
-
+using AutoMapper;
 
 namespace PropertyAPI.Tests.ControllerTests
 {
@@ -61,6 +61,7 @@ namespace PropertyAPI.Tests.ControllerTests
                 });
             });
 
+            services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IPropertyRepository, PropertyRepository>();
             services.AddTransient<IPropertyService, PropertyService>();
             services.AddTransient<SearchResultsModel>();
@@ -88,7 +89,7 @@ namespace PropertyAPI.Tests.ControllerTests
         public void GetPropertyTest()
         {
             var result =  _controller.GetAllProperties();
-            var count = searchResultsModel.SearchResults.Count();
+            var count = searchResultsModel.GetAllProperties().Count();
 
             Assert.NotNull(result);
             Assert.AreEqual(count, result.Count());

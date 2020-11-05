@@ -1,5 +1,6 @@
 ﻿using PropertyAPI.Entities;
 using PropertyAPI.Interfaces;
+using PropertyAPI.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,27 +15,28 @@ namespace PropertyAPI.Models
             PropertyService = propertyService;
         }
 
-        public IEnumerable<Property> SearchResults { get; set; }
+        public IEnumerable<PropertyResponse> SearchResults { get; set; }
 
         public IPropertyService PropertyService { get; set; }
 
-        public IEnumerable<Property> GetAllProperties()
+        public IEnumerable<PropertyResponse> GetAllProperties()
         {
             SearchResults = PropertyService.GetAllProperties();
 
             return SearchResults;
         }
 
-        public Property GetProperty(int id)
+        public PropertyResponse GetProperty(int id)
         {
             return PropertyService.GetProperty(id);
         }
 
-        public IEnumerable<Property> GetPropertyInRange(int low, int high)
+        public IEnumerable<PropertyResponse> GetPropertyInRange(int low, int high)
         {
             SearchResults = PropertyService.GetPropertyInRange(low, high);
 
             return SearchResults;
         }
+
     }
 }

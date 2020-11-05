@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,7 @@ namespace PropertyAPI
 
             services.AddMvcCore().AddApiExplorer();
 
+            services.AddAutoMapper(typeof(Startup));
             services.AddTransient<PropertyController>();
             services.AddTransient<SearchResultsModel>();
             services.AddTransient<PropertyModel>();
