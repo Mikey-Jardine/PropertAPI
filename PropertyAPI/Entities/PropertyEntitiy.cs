@@ -9,19 +9,19 @@ using Newtonsoft.Json;
 namespace PropertyAPI.Entities
 {
     [Table("Property")]
-    public class Property
+    public class PropertyEntitiy : BaseEntity
     {
-        public Property()
+        public PropertyEntitiy()
         {
             Photos = new List<string>();
-            PhotosCollection = new List<Photo>();
+            PhotosCollection = new List<PhotoEntity>();
         }
 
         [JsonConstructor]
-        public Property(IList<string> photos)
+        public PropertyEntitiy(IList<string> photos)
         {
             Photos = photos;
-            PhotosCollection = new List<Photo>();
+            PhotosCollection = new List<PhotoEntity>();
         }
 
         [Key]
@@ -38,6 +38,6 @@ namespace PropertyAPI.Entities
         public IList<string> Photos { get; set; }
         [JsonIgnore]
         [NotMapped]
-        public ICollection<Photo> PhotosCollection { get; set; }
+        public ICollection<PhotoEntity> PhotosCollection { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PropertyAPI.Entities;
 using PropertyAPI.Responses;
+using PropertyAPI.Requests;
 
 namespace PropertyAPI.Interfaces
 {
@@ -13,9 +14,9 @@ namespace PropertyAPI.Interfaces
         IEnumerable<PropertyResponse> GetAllProperties();
         PropertyResponse GetProperty(int id);
         List<PropertyResponse> GetPropertyInRange(int low, int high);
-        void CreateProperty(Property property);
-        void UpdateProperty(Property property);
-        Property DeleteProperty(int id);
+        void CreateProperty(PropertyRequest property);
+        void UpdateProperty(PropertyRequest property);
+        PropertyRequest DeleteProperty(int id);
 
 
     }

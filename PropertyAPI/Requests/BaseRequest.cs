@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PropertyAPI.Entities
+namespace PropertyAPI.Requests
 {
-    public class BaseEntity
+    public class BaseRequest
     {
     }
 }

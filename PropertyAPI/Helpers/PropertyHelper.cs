@@ -8,19 +8,19 @@ namespace PropertyAPI.Helpers
 {
     public static class PropertyHelper
     {
-        public static void InitialiseJson(this Property property)
+        public static void InitialiseJson(this PropertyEntitiy property)
         {
             if (property.Photos != null)
             {
                 foreach (var photo in property.Photos)
                 {
-                    property.PhotosCollection.Add(new Photo { Url = photo });
+                    property.PhotosCollection.Add(new PhotoEntity { Url = photo });
                 }
             }
 
         }
 
-        public static void PopulatePhotostring(this Property property)
+        public static void PopulatePhotostring(this PropertyEntitiy property)
         {
             if (property.PhotosCollection != null)
             {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PropertyAPI.Entities;
 using PropertyAPI.Models;
+using PropertyAPI.Requests;
 using PropertyAPI.Responses;
 
 namespace PropertyAPI.Controllers
@@ -53,7 +54,7 @@ namespace PropertyAPI.Controllers
         }
 
         [HttpPut("/UpdateProperty")]
-        public IActionResult UpdateProperty([FromBody] Property property)
+        public IActionResult UpdateProperty([FromBody] PropertyRequest property)
         {
             if (!ModelState.IsValid)
             {
@@ -66,7 +67,7 @@ namespace PropertyAPI.Controllers
         }
 
         [HttpPost("/CreateProperty")]
-        public IActionResult CreateProperty([FromBody] Property property)
+        public IActionResult CreateProperty([FromBody] PropertyRequest property)
         {
             if (!ModelState.IsValid)
             {

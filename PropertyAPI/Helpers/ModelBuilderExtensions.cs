@@ -14,7 +14,7 @@ namespace PropertyAPI.Helpers
             {
                 return;
             }
-            modelBuilder.Entity<Photo>(p =>
+            modelBuilder.Entity<PhotoEntity>(p =>
             {
                 p.HasOne(p => p.Property)
                  .WithMany(pr => pr.PhotosCollection)
@@ -22,27 +22,27 @@ namespace PropertyAPI.Helpers
             });
 
             var data = File.ReadAllText(@"housedata.json");
-            var properties = JsonConvert.DeserializeObject<List<Property>>(data);
+            var properties = JsonConvert.DeserializeObject<List<PropertyEntitiy>>(data);
             var photoId = 1;
 
             foreach (var property in properties)
             {
                 property.InitialiseJson();
-                var photoList = new List<Photo>();
+                var photoList = new List<PhotoEntity>();
                 foreach (var photo in property.PhotosCollection)
                 {
                     photo.PhotoId = photoId;
                     photo.PropertyId = property.Id;
                     photoId++;
                     photoList.Add(photo);
-                    modelBuilder.Entity<Photo>().HasData(new 
+                    modelBuilder.Entity<PhotoEntity>().HasData(new 
                     { 
                         PhotoId = photo.PhotoId, 
                         PropertyId = photo.PropertyId,
                         Url = photo.Url 
                     });
                 }
-                modelBuilder.Entity<Property>().HasData(new
+                modelBuilder.Entity<PropertyEntitiy>().HasData(new
                 {
                     Id = property.Id,
                     GroupLogoUrl = property.GroupLogoUrl,

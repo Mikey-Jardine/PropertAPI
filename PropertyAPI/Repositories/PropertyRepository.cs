@@ -19,7 +19,7 @@ namespace PropertyAPI.Repositories
 
         private readonly AppDBContext _context;
 
-        public Property GetProperty(int id)
+        public PropertyEntitiy GetProperty(int id)
         {
             if (PropertyExists(id))
             {
@@ -32,7 +32,7 @@ namespace PropertyAPI.Repositories
             return null;
         }
 
-        public List<Property> GetPropertyInRange(int low, int high)
+        public List<PropertyEntitiy> GetPropertyInRange(int low, int high)
         {
             var properties = _context.Properties
                                 .Include(p => p.PhotosCollection)
@@ -41,14 +41,14 @@ namespace PropertyAPI.Repositories
             return properties;
         }
 
-        public IEnumerable<Property> GetAllProperties()
+        public IEnumerable<PropertyEntitiy> GetAllProperties()
         {
             var properties = _context.Properties.Include(p => p.PhotosCollection);
 
             return properties;
         }
 
-        public void CreateProperty(Property property)
+        public void CreateProperty(PropertyEntitiy property)
         {
             _context.Entry(property).State = EntityState.Modified;
             _context.Properties.Add(property);
@@ -57,7 +57,7 @@ namespace PropertyAPI.Repositories
 
         }
 
-        public void UpdateProperty(Property property)
+        public void UpdateProperty(PropertyEntitiy property)
         {
             if (!PropertyExists(property.Id))
             {
@@ -75,7 +75,7 @@ namespace PropertyAPI.Repositories
             }
         }
 
-        public Property DeleteProperty(int id)
+        public PropertyEntitiy DeleteProperty(int id)
         {
             if (!PropertyExists(id))
             {

@@ -16,8 +16,8 @@ namespace PropertyAPI.Models
         {
         }
 
-        public DbSet<Property> Properties { get; set; }
-        public DbSet<Photo> Photos { get; set; }
+        public DbSet<PropertyEntitiy> Properties { get; set; }
+        public DbSet<PhotoEntity> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

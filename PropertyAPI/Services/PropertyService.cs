@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using PropertyAPI.Interfaces;
 using PropertyAPI.Entities;
 using PropertyAPI.Responses;
+using PropertyAPI.Requests;
 
 namespace PropertyAPI.Services
 {
@@ -45,19 +46,22 @@ namespace PropertyAPI.Services
             return PropertyResponses;
         }
 
-        public void CreateProperty(Property property)
+        public void CreateProperty(PropertyRequest property)
         {
-            PropertyRepository.CreateProperty(property);
+            var prop = _mapper.Map<PropertyEntitiy>(property);
+            PropertyRepository.CreateProperty(prop);
         }
 
-        public void UpdateProperty(Property property)
+        public void UpdateProperty(PropertyRequest property)
         {
-            PropertyRepository.UpdateProperty(property);
+            var prop = _mapper.Map<PropertyEntitiy>(property);
+            PropertyRepository.UpdateProperty(prop);
         }
 
-        public Property DeleteProperty(int id)
+        public PropertyRequest DeleteProperty(int id)
         {
-            return PropertyRepository.DeleteProperty(id);
+            var property = PropertyRepository.DeleteProperty(id);
+            return _mapper.Map<PropertyRequest>(property);
         }
 
         public IPropertyRepository PropertyRepository { get; set; }

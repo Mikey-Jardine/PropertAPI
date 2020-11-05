@@ -1,5 +1,6 @@
 ﻿using PropertyAPI.Entities;
 using PropertyAPI.Interfaces;
+using PropertyAPI.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,17 +17,17 @@ namespace PropertyAPI.Models
 
         public IPropertyService PropertyService { get; set; }
 
-        public void CreateProperty(Property property)
+        public void CreateProperty(PropertyRequest property)
         {
             PropertyService.CreateProperty(property);
         }
 
-        public void UpdateProperty(Property property)
+        public void UpdateProperty(PropertyRequest property)
         {
             PropertyService.UpdateProperty(property);
         }
 
-        public Property DeleteProperty(int id)
+        public PropertyRequest DeleteProperty(int id)
         {
             return PropertyService.DeleteProperty(id);
         }

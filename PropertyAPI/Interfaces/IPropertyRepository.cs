@@ -10,12 +10,12 @@ namespace PropertyAPI.Interfaces
 {
     public interface IPropertyRepository
     {
-        Property GetProperty(int id);
-        List<Property> GetPropertyInRange(int low, int high);
-        IEnumerable<Property> GetAllProperties();
-        void CreateProperty(Property property);
-        void UpdateProperty(Property property);
-        Property DeleteProperty(int id);
+        PropertyEntitiy GetProperty(int id);
+        List<PropertyEntitiy> GetPropertyInRange(int low, int high);
+        IEnumerable<PropertyEntitiy> GetAllProperties();
+        void CreateProperty(PropertyEntitiy property);
+        void UpdateProperty(PropertyEntitiy property);
+        PropertyEntitiy DeleteProperty(int id);
 
     }
 }

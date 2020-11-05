@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace PropertyAPI.Entities
 {
     [Table("Photo")]
-    public class Photo
+    public class PhotoEntity : BaseEntity
     {
         [Key]
         public int PhotoId { get; set; }
         //[ForeignKey("PropertyId")]
         public int PropertyId { get; set; }
-        public Property Property { get; set; }
+        public PropertyEntitiy Property { get; set; }
         public string Url { get; set; }
         
     }

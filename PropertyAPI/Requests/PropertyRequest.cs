@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PropertyAPI.Responses
+namespace PropertyAPI.Requests
 {
-    public class PropertyResponse : BaseResponse
+    public class PropertyRequest : BaseRequest
     {
         public int Id { get; set; }
         public string GroupLogoUrl { get; set; }

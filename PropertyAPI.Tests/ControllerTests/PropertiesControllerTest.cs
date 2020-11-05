@@ -14,6 +14,7 @@ using PropertyAPI.Repositories;
 using PropertyAPI.Services;
 using PropertyAPI.Entities;
 using AutoMapper;
+using PropertyAPI.Requests;
 
 namespace PropertyAPI.Tests.ControllerTests
 {
@@ -106,7 +107,7 @@ namespace PropertyAPI.Tests.ControllerTests
         [Test]
         public void CreatePropertyTest()
         {
-            var property = new Property()
+            var property = new PropertyRequest()
             {
                 GroupLogoUrl = "https://photosa.propertyimages.ie/groups/9/0/4/6409/logo.jpg",
                 BedsString = "2 beds",
@@ -133,7 +134,7 @@ namespace PropertyAPI.Tests.ControllerTests
         [Test]
         public void UpdatePropertyTest()
         {
-            var property = new Property()
+            var property = new PropertyRequest()
             {
                 GroupLogoUrl = "https://photosa.propertyimages.ie/groups/9/0/4/6409/logo.jpg",
                 BedsString = "2 beds",

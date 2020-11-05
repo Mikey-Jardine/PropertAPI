@@ -9,9 +9,9 @@ namespace PropertyAPI.Interfaces
 {
     public interface ICreatePropertyModel
     {
-        void CreateProperty(Property property);
-        void UpdateProperty(Property property);
-        Property DeleteProperty(int id);
+        void CreateProperty(PropertyEntitiy property);
+        void UpdateProperty(PropertyEntitiy property);
+        PropertyEntitiy DeleteProperty(int id);
 
 
     }
